@@ -372,7 +372,6 @@
 -analyzer:"D:/Program Files (x86)/Unity/Hub/2022.3.22f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/Scripts/Bullet.cs"
 "Assets/Scripts/BulletSpawner.cs"
-"Assets/Scripts/Player.cs"
 "Assets/Scripts/PlayerController.cs"
 "Assets/Scripts/SetCursor.cs"
 "Assets/StarterAssets/InputSystem/StarterAssetsInputs.cs"
