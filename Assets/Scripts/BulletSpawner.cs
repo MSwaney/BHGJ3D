@@ -20,6 +20,7 @@ public class BulletSpawner : MonoBehaviour
     private float[] _rotations;
 
     private Transform _playerTransform;
+    private EnemyController _enemyController;
 
     public bool isFiring;
 
@@ -27,6 +28,7 @@ public class BulletSpawner : MonoBehaviour
     void Start()
     {
         _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        _enemyController = this.transform.parent.GetComponent<EnemyController>();
 
         _timer = _cooldown;
         _rotations = new float[_numberOfBullets];
@@ -100,6 +102,8 @@ public class BulletSpawner : MonoBehaviour
         {
             RandomRotations();
         }
+
+        StartCoroutine(_enemyController.PlayFireAnim(_cooldown));
 
         // Spawn Bullets
         GameObject[] spawnedBullets = new GameObject[_numberOfBullets];
