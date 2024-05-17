@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
     [Header ("Everything Else")]
     [SerializeField] private Animator _animator;
-    [SerializeField] private BulletSpawner _bulletSpawner;
+    [SerializeField] private BulletSpawner[] _bulletSpawner;
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private Rigidbody _rigidbody;
@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private bool _isMovingBackwards;
     private Vector2 _moveInput;
     private Vector3 _moveDirection;
+    private GameManager _gameManager;
 
     public bool isAlive = true;
 
@@ -40,6 +41,9 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _health = _maxHealth;
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+        _bulletSpawner = GameObject.Find("BulletSpawner").GetComponents<BulletSpawner>();
+        print(_gameManager);
     }
 
     // Update is called once per frame
@@ -47,14 +51,22 @@ public class PlayerController : MonoBehaviour
     {
         CalculateMovement();
 
+        // Check for dodge input
         if (Input.GetKeyDown(KeyCode.Space) && !_isDodging)
         {
             StartCoroutine(StartDodge());
         }
+
+        if (_health <= 0)
+        {
+            PlayerDied();
+        }
     }
 
+    // FixedUpdate is called at a fixed interval
     private void FixedUpdate()
     {
+        // Check for laser firing input
         if (_canFireLaser && Input.GetMouseButton(0))
         {
             FireLaser();
@@ -63,12 +75,15 @@ public class PlayerController : MonoBehaviour
 
     private void CalculateMovement()
     {
+        // Get movement input from the player
         _moveInput.x = Input.GetAxis("Horizontal");
         _moveInput.y = Input.GetAxis("Vertical");
         _moveInput.Normalize();
 
+        // Apply movement to the player's Rigidbody
         _rigidbody.velocity = new Vector3(_moveInput.x * _moveSpeed, _rigidbody.velocity.y, _moveInput.y * _moveSpeed);
-        
+
+        // Determine if the player is moving
         if (_moveInput.x != 0 || _moveInput.y != 0)
         {
             _isMoving = true;
@@ -103,11 +118,10 @@ public class PlayerController : MonoBehaviour
             _isMovingBackwards = false;
         }
 
-        print(_isMoving + ", " +  _isMovingBackwards);
         _animator.SetBool("isMoving", _isMoving);
         _animator.SetBool("isMovingBackwards", _isMovingBackwards);
 
-        // Cast a ray from the mouse position
+        // Cast a ray from the mouse position to determine player rotation
         Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
         float rayDistance;
@@ -128,13 +142,13 @@ public class PlayerController : MonoBehaviour
 
     private void RotateTowardsCursor(Vector3 targetPoint)
     {
-        //Calculate the direction to the target point
+        // Calculate the direction to the target point
         Vector3 direction = targetPoint - transform.position;
-
-        //Calculate the rotation to face the target point
+        
+        // Calculate the rotation to face the target point
         Quaternion targetRotation = Quaternion.LookRotation(direction);
 
-        //Smoothly rotate the player towards the target point
+        // Smoothly rotate the player towards the target point
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
     }
 
@@ -145,10 +159,10 @@ public class PlayerController : MonoBehaviour
         _moveSpeed *= _dodgeSpeedMultiplier;
         _health -= _dodgeDamage;
 
-        //Wait for the duration of the dodge
+        // Wait for the duration of the dodge
         yield return new WaitForSeconds(_dodgeDuration);
 
-        //Reset dodge state and speed
+        // Reset dodge state and speed
         _isDodging = false;
         _moveSpeed = currentSpeed;
     }
@@ -159,6 +173,7 @@ public class PlayerController : MonoBehaviour
         GameObject laser = Instantiate(_laserPrefab, transform.position + laserOffset, Quaternion.identity);
         laser.GetComponent<Rigidbody>().velocity = transform.forward * _laserSpeed;
 
+        // Start the laser cooldown coroutine
         StartCoroutine(LaserCooldown());
     }
 
@@ -171,6 +186,10 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerDied()
     {
-        _bulletSpawner.StopSpawning();
+        _gameManager.SetPlayerDead();
+        foreach (BulletSpawner spawner in _bulletSpawner)
+        {
+            spawner.SetGameOver();
+        }
     }
 }

@@ -15,6 +15,7 @@ public class BulletSpawner : MonoBehaviour
     [SerializeField] private bool _isRandom;
     [SerializeField] private bool _isRotating = false;
 
+    private bool _isGameOver = false;
     private float _timer;
     private float[] _rotations;
 
@@ -41,16 +42,19 @@ public class BulletSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_timer <= 0)
+        if (!_isGameOver)
         {
-            SpawnBullets();
-            _timer = _cooldown;
-        }
-        _timer -= Time.deltaTime;
+            if (_timer <= 0)
+            {
+                SpawnBullets();
+                _timer = _cooldown;
+            }
+            _timer -= Time.deltaTime;
 
-        if (_isRotating) // Example condition for when rotation changes
-        {
-            DistributedRotations();
+            if (_isRotating) // Example condition for when rotation changes
+            {
+                DistributedRotations();
+            }
         }
     }
 
@@ -131,8 +135,9 @@ public class BulletSpawner : MonoBehaviour
             yield return null;
         }
     }
-    public void StopSpawning()
+
+    public void SetGameOver()
     {
-        _isRotating = false;
+        _isGameOver = true;
     }
 }
