@@ -43,7 +43,11 @@ public class PlayerController : MonoBehaviour
         _health = _maxHealth;
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
         _bulletSpawner = GameObject.Find("BulletSpawner").GetComponents<BulletSpawner>();
-        print(_gameManager);
+
+        if (_bulletSpawner == null )
+        {
+            Debug.Log("Bullet Spawner is NULL.");
+        }
     }
 
     // Update is called once per frame

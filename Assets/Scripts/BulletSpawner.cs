@@ -21,6 +21,8 @@ public class BulletSpawner : MonoBehaviour
 
     private Transform _playerTransform;
 
+    public bool isFiring;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -88,7 +90,7 @@ public class BulletSpawner : MonoBehaviour
             var fractionOfDifference = fraction * difference;
             _rotations[i] = fractionOfDifference + _minRotation; // Add MinRotation to undo Difference
         }
-        foreach (var r in _rotations) { print(r); }
+
         return _rotations;
     }
 
@@ -123,6 +125,9 @@ public class BulletSpawner : MonoBehaviour
                 continue; // Skip to the next iteration of the loop
             }
         }
+
+        isFiring = false;
+
         return spawnedBullets;
     }
 

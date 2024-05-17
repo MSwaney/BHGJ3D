@@ -121,3 +121,4 @@ MonoBehaviour:
   _velocity: {x: 1, y: 1, z: 1}
   _speed: 1
   _rotation: 1
+  _maxDistance: 50
