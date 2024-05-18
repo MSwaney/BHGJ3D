@@ -194,4 +194,28 @@ public class PlayerController : MonoBehaviour
             spawner.SetGameOver();
         }
     }
+
+    public void IncreaseHealth()
+    {
+        if (_maxHealth < 200)
+        {
+            _maxHealth += 25;
+        }
+    }
+
+    public void IncreaseDamage()
+    {
+        if (_damage < 10)
+        {
+            _damage += 2;
+        }
+    }
+
+    public void DecreaseDodgeDamage()
+    {
+        if (_dodgeDamage > 2)
+        {
+            _dodgeDamage /= 2;
+        }
+    }
 }
