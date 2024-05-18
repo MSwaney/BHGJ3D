@@ -1,38 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     [Header ("Player Stats")]
-    [SerializeField] private float _moveSpeed;
-    [SerializeField] private int _health;
-    [SerializeField] private int _maxHealth;
-    [SerializeField] private int _damage;
+    [SerializeField] private float  _moveSpeed;
+    [SerializeField] private int    _health;
+    [SerializeField] private int    _maxHealth;
+    [SerializeField] private int    _maximumMaxHealth;
+    [SerializeField] private int    _damage;
+    [SerializeField] private int    _maxDamage;
 
     [Header ("Movement Settings")]
-    [SerializeField] private float _dodgeSpeedMultiplier;
-    [SerializeField] private float _dodgeDuration;
-    [SerializeField] private float _rotationSpeed;
-    [SerializeField] private int _dodgeDamage;
+    [SerializeField] private float  _dodgeSpeedMultiplier;
+    [SerializeField] private float  _dodgeDuration;
+    [SerializeField] private float  _rotationSpeed;
+    [SerializeField] private int    _dodgeDamage;
+    [SerializeField] private int    _minDodgeDamage;
 
     [Header("Laser Settings")]
-    [SerializeField] private bool _canFireLaser;
-    [SerializeField] private float _laserSpeed;
-    [SerializeField] private float _laserCooldown;
+    [SerializeField] private bool   _canFireLaser;
+    [SerializeField] private float  _laserSpeed;
+    [SerializeField] private float  _laserCooldown;
 
     [Header ("Everything Else")]
-    [SerializeField] private Animator _animator;
-    [SerializeField] private BulletSpawner[] _bulletSpawner;
-    [SerializeField] private Camera _mainCamera;
-    [SerializeField] private GameObject _laserPrefab;
-    [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private Animator           _animator;
+    [SerializeField] private BulletSpawner[]    _bulletSpawner;
+    [SerializeField] private Camera             _mainCamera;
+    [SerializeField] private GameObject         _laserPrefab;
+    [SerializeField] private Rigidbody          _rigidbody;
 
-    private bool _isDodging;
-    private bool _isMoving;
-    private bool _isMovingBackwards;
-    private Vector2 _moveInput;
-    private Vector3 _moveDirection;
+    private bool        _isDodging;
+    private bool        _isMoving;
+    private bool        _isMovingBackwards;
+    private GameObject  _healthButton;
+    private Vector2     _moveInput;
+    private Vector3     _moveDirection;
     private GameManager _gameManager;
 
     public bool isAlive = true;
@@ -43,6 +49,7 @@ public class PlayerController : MonoBehaviour
         _health = _maxHealth;
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
         _bulletSpawner = GameObject.Find("BulletSpawner").GetComponents<BulletSpawner>();
+        _healthButton = GameObject.Find("Health_Button");
 
         if (_bulletSpawner == null )
         {
@@ -192,6 +199,45 @@ public class PlayerController : MonoBehaviour
         foreach (BulletSpawner spawner in _bulletSpawner)
         {
             spawner.SetGameOver();
+        }
+    }
+
+    public void IncreaseHealth()
+    {
+        if (_maxHealth < _maximumMaxHealth)
+        {
+            _maxHealth += 25;
+            if (_maxHealth == _maximumMaxHealth)
+            {
+                TextMeshProUGUI canvasButtonText = _healthButton.GetComponentInChildren<TextMeshProUGUI>();
+                canvasButtonText.text = "Max";
+            }
+        }
+    }
+
+    public void IncreaseDamage()
+    {
+        if (_damage < _maxDamage)
+        {
+            _damage += 2;
+            if ( _damage == _maxDamage)
+            {
+                //TextMeshProUGUI canvasButtonText = _canvasButton.GetComponentInChildren<TextMeshProUGUI>();
+                //canvasButtonText.text = "Max";
+            }
+        }
+    }
+
+    public void DecreaseDodgeDamage()
+    {
+        if (_dodgeDamage > _minDodgeDamage)
+        {
+            _dodgeDamage /= 2;
+            if (_dodgeDamage == _minDodgeDamage)
+            {
+                //TextMeshProUGUI canvasButtonText = _canvasButton.GetComponentInChildren<TextMeshProUGUI>();
+                //canvasButtonText.text = "Max";
+            }
         }
     }
 }
