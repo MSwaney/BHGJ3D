@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         CalculateMovement();
-
+        
         // Check for dodge input
         if (Input.GetKeyDown(KeyCode.Space) && !_isDodging)
         {
@@ -84,20 +84,18 @@ public class PlayerController : MonoBehaviour
         _moveInput.y = Input.GetAxis("Vertical");
         _moveInput.Normalize();
 
-        // Apply movement to the player's Rigidbody
-        _rigidbody.velocity = new Vector3(_moveInput.x * _moveSpeed, _rigidbody.velocity.y, _moveInput.y * _moveSpeed);
+        // Calculate movement vector
+        Vector3 movement = new Vector3(_moveInput.x, 0f, _moveInput.y) * _moveSpeed;
 
-        // Determine if the player is moving
-        if (_moveInput.x != 0 || _moveInput.y != 0)
-        {
-            _isMoving = true;
-            _animator.SetBool("isMoving", _isMoving);
-        }
-        else
-        {
-            _isMoving = false;
-            _animator.SetBool("isMoving", _isMoving);
-        }
+        // Apply movement using AddForce with ForceMode.VelocityChange
+        _rigidbody.AddForce(movement * Time.deltaTime, ForceMode.VelocityChange);
+
+        // Ensure the Y component of velocity is zero to prevent floating
+        Vector3 currentVelocity = _rigidbody.velocity;
+        currentVelocity.y = 0;
+        _rigidbody.velocity = currentVelocity;
+
+        // Debug the movement vector
 
         // Calculate movement direction based on input
         Vector3 inputDirection = new Vector3(_moveInput.x, 0f, _moveInput.y);
