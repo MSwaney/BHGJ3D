@@ -10,12 +10,15 @@ public class Bullet : MonoBehaviour
     [SerializeField] public float _maxDistance = 100f;
 
     private Vector3 _startPosition;
+    private PlayerController _player;
 
     // Start is called before the first frame update
     void Start()
     {
         // Store the starting position of the bullet
         _startPosition = transform.position;
+
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -29,6 +32,17 @@ public class Bullet : MonoBehaviour
         {
             // Destroy the bullet if it exceeds the maximum distance
             Destroy(this.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag != "Enemy")
+        {
+            if (_player.CheckDodge() == false)
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 }

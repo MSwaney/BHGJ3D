@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int    _maximumMaxHealth;
     [SerializeField] private int    _damage;
     [SerializeField] private int    _maxDamage;
+    [SerializeField] private int    _parts;
 
     [Header ("Movement Settings")]
     [SerializeField] private float  _dodgeSpeedMultiplier;
@@ -28,18 +29,20 @@ public class PlayerController : MonoBehaviour
 
     [Header ("Everything Else")]
     [SerializeField] private Animator           _animator;
-    [SerializeField] private BulletSpawner[]    _bulletSpawner;
     [SerializeField] private Camera             _mainCamera;
     [SerializeField] private GameObject         _laserPrefab;
+    [SerializeField] private HealthBar          _healthBar;
     [SerializeField] private Rigidbody          _rigidbody;
 
-    private bool        _isDodging;
-    private bool        _isMoving;
-    private bool        _isMovingBackwards;
-    private GameObject  _healthButton;
-    private Vector2     _moveInput;
-    private Vector3     _moveDirection;
-    private GameManager _gameManager;
+    private bool                    _isDead = false;
+    private bool                    _isDodging;
+    private bool                    _isMoving;
+    private bool                    _isMovingBackwards;
+    private GameObject              _healthButton;
+    private Vector2                 _moveInput;
+    private Vector3                 _moveDirection;
+    private GameManager             _gameManager;
+    private EnemyController[]       _runners;
 
     public bool isAlive = true;
 
@@ -47,14 +50,10 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _health = _maxHealth;
-        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
-        _bulletSpawner = GameObject.Find("BulletSpawner").GetComponents<BulletSpawner>();
-        _healthButton = GameObject.Find("Health_Button");
+        _healthBar.SetMaxHealth(_maxHealth);
 
-        if (_bulletSpawner == null )
-        {
-            Debug.Log("Bullet Spawner is NULL.");
-        }
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+        _healthButton = GameObject.Find("Health_Button");
     }
 
     // Update is called once per frame
@@ -72,6 +71,8 @@ public class PlayerController : MonoBehaviour
         {
             PlayerDied();
         }
+
+        
     }
 
     // FixedUpdate is called at a fixed interval
@@ -151,14 +152,17 @@ public class PlayerController : MonoBehaviour
 
     private void RotateTowardsCursor(Vector3 targetPoint)
     {
-        // Calculate the direction to the target point
-        Vector3 direction = targetPoint - transform.position;
+        if (!_isDead)
+        {
+            // Calculate the direction to the target point
+            Vector3 direction = targetPoint - transform.position;
         
-        // Calculate the rotation to face the target point
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
+            // Calculate the rotation to face the target point
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
 
-        // Smoothly rotate the player towards the target point
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
+            // Smoothly rotate the player towards the target point
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
+        }
     }
 
     private IEnumerator StartDodge()
@@ -179,7 +183,8 @@ public class PlayerController : MonoBehaviour
     private void FireLaser()
     {
         Vector3 laserOffset = transform.forward * 1.05f;
-        GameObject laser = Instantiate(_laserPrefab, transform.position + laserOffset, Quaternion.identity);
+        float laserHeightOffset = 1.0f;
+        GameObject laser = Instantiate(_laserPrefab, transform.position + laserOffset + new Vector3(0f, laserHeightOffset, 0f), Quaternion.identity);
         laser.GetComponent<Rigidbody>().velocity = transform.forward * _laserSpeed;
 
         // Start the laser cooldown coroutine
@@ -196,9 +201,21 @@ public class PlayerController : MonoBehaviour
     public void PlayerDied()
     {
         _gameManager.SetPlayerDead();
-        foreach (BulletSpawner spawner in _bulletSpawner)
+        _isDead = true;
+        _animator.SetBool("isDead", _isDead);
+
+        ReturnState();
+    }
+
+    public bool ReturnState()
+    {
+        if (_isDead)
         {
-            spawner.SetGameOver();
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -239,5 +256,34 @@ public class PlayerController : MonoBehaviour
                 //canvasButtonText.text = "Max";
             }
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Bullet" && !_isDodging)
+        {
+            _health--;
+            _healthBar.SetHealth(_health);
+            if (_health < 0)
+            {
+                _health = 0;
+            }
+            if (_health == 0)
+            {
+                StartCoroutine(PlayerDeath());
+            }
+        }
+    }
+
+    private IEnumerator PlayerDeath()
+    {
+        PlayerDied();
+        yield return new WaitForSeconds(5);
+        //Spawn into Main room
+    }
+
+    public bool CheckDodge()
+    {
+        return _isDodging;
     }
 }
