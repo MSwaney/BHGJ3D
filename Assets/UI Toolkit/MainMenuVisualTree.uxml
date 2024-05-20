@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/MainMenuStyles.uss?fileID=7433441132597879392&amp;guid=0df234ba264744268a22b0e6c86e55c2&amp;type=3#MainMenuStyles" />
-    <ui:VisualElement class="backdrop" style="flex-grow: 1; align-self: auto; justify-content: center; align-items: auto;">
+    <ui:VisualElement class="backdrop" style="flex-grow: 1; align-self: auto; justify-content: center; align-items: auto; background-image: url(&quot;project://database/Assets/Images/HeroClip6.png?fileID=2800000&amp;guid=5b23709fb092e4238b3d4965b3716cf6&amp;type=3#HeroClip6&quot;);">
         <ui:Label tabindex="-1" text="K.A.R.M.A." parse-escape-sequences="true" display-tooltip-when-elided="true" enable-rich-text="false" class="header" style="align-self: center;" />
         <ui:Button text="Play" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StartGameButton" class="button" />
         <ui:Button text="Controls" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ControlsButton" class="button" />

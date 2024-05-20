@@ -12,9 +12,29 @@ public class MainMenuEvents : MonoBehaviour
     private Button _creditsButton;
     private Button _backButton;
 
+    private List<Button> _menuButtons = new List<Button>();
+    private AudioSource _buttonAudio;
+    private AudioSource _menuMusic;
+
+
     private void Awake()
     {
         _document = GetComponent<UIDocument>();
+
+        _menuMusic = GetComponent<AudioSource>();
+
+        _buttonAudio = GetComponent<AudioSource>();
+
+        if(_menuMusic.clip != null)
+        {
+            _menuMusic.Play();
+        }
+
+        _menuButtons = _document.rootVisualElement.Query<Button>().ToList();
+        for (int i = 0; i < _menuButtons.Count; i++)
+        {
+            _menuButtons[i].RegisterCallback<ClickEvent>(OnAllButtonsClick);
+        }
 
         _startButton = _document.rootVisualElement.Q("StartGameButton") as Button;
         if ( _startButton != null ) {
@@ -36,11 +56,15 @@ public class MainMenuEvents : MonoBehaviour
         if ( _backButton != null ) {
             _backButton.RegisterCallback<ClickEvent>(OnBackClick);
         }
-
     }
 
     private void OnDisable()
     {
+        // for (int i = 0; i < _menuButtons.Count; i++)
+        // {
+        //     _menuButtons[i].UnregisterCallback<ClickEvent>(OnAllButtonsClick);
+        // }
+
         if ( _startButton != null ) {
             _startButton.UnregisterCallback<ClickEvent>(OnPlayGameClick);
         }
@@ -57,33 +81,29 @@ public class MainMenuEvents : MonoBehaviour
         if ( _backButton != null ) {
             _backButton.UnregisterCallback<ClickEvent>(OnBackClick);
         }
-        // _startButton.UnregisterCallback<ClickEvent>(OnPlayGameClick);
-        // _controlsButton.UnregisterCallback<ClickEvent>(OnControlsClick);
-        // _creditsButton.UnregisterCallback<ClickEvent>(OnCreditsClick);
-        // _backButton.UnregisterCallback<ClickEvent>(OnBackClick);
-
     }
     private void OnPlayGameClick(ClickEvent evt)
     {
-        Debug.Log("You Pressed the Start Button!");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     private void OnControlsClick(ClickEvent evt)
     {
-        Debug.Log("Learn the Controls!");
         SceneManager.LoadScene("Controls");
     }
 
     private void OnCreditsClick(ClickEvent evt)
     {
-        Debug.Log("Check out our awesome team!");
         SceneManager.LoadScene("Credits");
     }
 
     private void OnBackClick(ClickEvent evt)
     {
-        Debug.Log("GO BACK YO!");
         SceneManager.LoadScene("MainMenu");
+    }
+
+    private void OnAllButtonsClick(ClickEvent evt)
+    {
+        _buttonAudio.PlayOneShot(_buttonAudio.clip, 0.5f);
     }
 }

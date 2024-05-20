@@ -1,7 +1,18 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/MainMenuStyles.uss?fileID=7433441132597879392&amp;guid=0df234ba264744268a22b0e6c86e55c2&amp;type=3#MainMenuStyles" />
-    <ui:VisualElement class="backdrop" style="flex-grow: 1; justify-content: space-around;">
+    <ui:VisualElement class="backdrop" style="flex-grow: 1; justify-content: space-around; background-image: url(&quot;project://database/Assets/Images/HeroClip3.png?fileID=2800000&amp;guid=f5d77fa4471fb46aebad963fd3f26076&amp;type=3#HeroClip3&quot;);">
         <ui:Label tabindex="-1" text="Controls" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Controls" class="header" />
+        <ui:VisualElement class="names-box" style="flex-grow: 1; align-self: center; justify-content: space-around; -unity-text-align: upper-left; align-items: flex-start;">
+            <ui:Label tabindex="-1" text="W,A,S,D or Arrow Keys" parse-escape-sequences="true" display-tooltip-when-elided="true" class="name">
+                <ui:Label tabindex="-1" text="Move" parse-escape-sequences="true" display-tooltip-when-elided="true" class="role" style="left: -50px;" />
+            </ui:Label>
+            <ui:Label tabindex="-1" text="Spacebar" parse-escape-sequences="true" display-tooltip-when-elided="true" class="name">
+                <ui:Label tabindex="-1" text="Dash" parse-escape-sequences="true" display-tooltip-when-elided="true" class="role" style="left: -50px;" />
+            </ui:Label>
+            <ui:Label tabindex="-1" text="Point and click" parse-escape-sequences="true" display-tooltip-when-elided="true" class="name">
+                <ui:Label tabindex="-1" text="Fire Weapon" parse-escape-sequences="true" display-tooltip-when-elided="true" class="role" style="-unity-text-align: upper-left; left: -50px;" />
+            </ui:Label>
+        </ui:VisualElement>
         <ui:Button text="Back" parse-escape-sequences="true" display-tooltip-when-elided="true" name="BackButton" class="button" />
     </ui:VisualElement>
 </ui:UXML>
