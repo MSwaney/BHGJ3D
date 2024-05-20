@@ -10,6 +10,7 @@ TagManager:
   - Level
   - UI
   - Collider
+  - Door
   layers:
   - Default
   - TransparentFX

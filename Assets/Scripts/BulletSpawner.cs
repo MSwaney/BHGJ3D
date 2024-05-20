@@ -28,6 +28,7 @@ public class BulletSpawner : MonoBehaviour
     void Start()
     {
         _enemyController = this.transform.parent.GetComponent<EnemyController>();
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
         _timer = _cooldown;
         _rotations = new float[_numberOfBullets];
@@ -159,7 +160,5 @@ public class BulletSpawner : MonoBehaviour
     public void SetGameOver()
     {
         _isGameOver = true;
-        _enemyController.StopRunner();
-        _enemyController.StopAllCoroutines();
     }
 }

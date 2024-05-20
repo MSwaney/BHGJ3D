@@ -18,8 +18,10 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private int        _health;
 
     private bool _isChasing;
+    private bool _isDead;
 
     private BulletSpawner   _bulletSpawner;
+    private GameManager     _gameManager;
     private NavMeshAgent    _navMeshAgent;
     private Transform       _player;
 
@@ -32,6 +34,8 @@ public class EnemyController : MonoBehaviour
         _navMeshAgent = GetComponent<NavMeshAgent>();
         // Find the player's transform (assuming the player has a tag "Player")
         _player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
 
         if (_isRunner)
         {
@@ -86,12 +90,29 @@ public class EnemyController : MonoBehaviour
         if (other.tag == "Laser")
         {
             _health--;
+
             if (_health == 0 )
             {
                 //play death animation
+                _isDead = true;
+                _animator.SetBool("isDead", _isDead);
                 //stop shooting or running
+                if (!_isRunner)
+                {
+                    _bulletSpawner.SetGameOver();
+                }
+                StopRunner();
+                StopCoroutine(PlayFireAnim(0f));
+                StartCoroutine(DestroyEnemy());
             }
         }
+    }
+
+    private IEnumerator DestroyEnemy()
+    {
+        _gameManager.RemoveEnemy(this.gameObject);
+        yield return new WaitForSeconds(10f);
+        Destroy(this.gameObject);
     }
 
     public void StopRunner()
