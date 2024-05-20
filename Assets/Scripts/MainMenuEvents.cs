@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuEvents : MonoBehaviour
 {
-    private UIDocument _document;
+    [SerializeField] private UIDocument _document;
     private Button _startButton;
     private Button _controlsButton;
     private Button _creditsButton;
@@ -19,7 +19,7 @@ public class MainMenuEvents : MonoBehaviour
 
     private void Awake()
     {
-        _document = GetComponent<UIDocument>();
+        //_document = GetComponent<UIDocument>();
 
         _menuMusic = GetComponent<AudioSource>();
 
@@ -30,6 +30,7 @@ public class MainMenuEvents : MonoBehaviour
             _menuMusic.Play();
         }
 
+        print(_document);
         _menuButtons = _document.rootVisualElement.Query<Button>().ToList();
         for (int i = 0; i < _menuButtons.Count; i++)
         {
