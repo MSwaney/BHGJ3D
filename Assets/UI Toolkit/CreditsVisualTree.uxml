@@ -1,6 +1,21 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/MainMenuStyles.uss?fileID=7433441132597879392&amp;guid=0df234ba264744268a22b0e6c86e55c2&amp;type=3#MainMenuStyles" />
-    <ui:VisualElement style="flex-grow: 1;">
-        <ui:Label tabindex="-1" text="Credits" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Credits" class="header" />
+    <ui:VisualElement class="backdrop" style="flex-grow: 1; align-items: center; justify-content: space-around;">
+        <ui:Label tabindex="-1" text="The Team" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Credits" class="header" />
+        <ui:VisualElement name="Names" style="flex-grow: 1; justify-content: space-between; height: auto; max-height: 400px; min-height: 300px;">
+            <ui:Label tabindex="-1" text="Matthew Swaney" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name" class="name">
+                <ui:Label tabindex="-1" text="Game Design &amp; Programming" parse-escape-sequences="true" display-tooltip-when-elided="true" class="role" />
+            </ui:Label>
+            <ui:Label tabindex="-1" text="Jonathan Wallace" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name" class="name">
+                <ui:Label tabindex="-1" text="Art &amp; Design" parse-escape-sequences="true" display-tooltip-when-elided="true" class="role" />
+            </ui:Label>
+            <ui:Label tabindex="-1" text="Caleb Welsh" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name" class="name">
+                <ui:Label tabindex="-1" text="Music &amp; Audio" parse-escape-sequences="true" display-tooltip-when-elided="true" class="role" />
+            </ui:Label>
+            <ui:Label tabindex="-1" text="Julie Hawkins" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name" class="name">
+                <ui:Label tabindex="-1" text="Production &amp; UI" parse-escape-sequences="true" display-tooltip-when-elided="true" class="role" />
+            </ui:Label>
+        </ui:VisualElement>
+        <ui:Button text="Back" parse-escape-sequences="true" display-tooltip-when-elided="true" name="BackButton" class="button" style="-unity-text-align: middle-center; position: relative; bottom: auto;" />
     </ui:VisualElement>
 </ui:UXML>

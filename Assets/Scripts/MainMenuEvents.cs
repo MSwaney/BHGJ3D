@@ -10,27 +10,57 @@ public class MainMenuEvents : MonoBehaviour
     private Button _startButton;
     private Button _controlsButton;
     private Button _creditsButton;
+    private Button _backButton;
 
     private void Awake()
     {
         _document = GetComponent<UIDocument>();
 
         _startButton = _document.rootVisualElement.Q("StartGameButton") as Button;
-        _startButton.RegisterCallback<ClickEvent>(OnPlayGameClick);
+        if ( _startButton != null ) {
+            _startButton.RegisterCallback<ClickEvent>(OnPlayGameClick);
+        }
 
         _controlsButton = _document.rootVisualElement.Q("ControlsButton") as Button;
-        _controlsButton.RegisterCallback<ClickEvent>(OnControlsClick);
+        if ( _controlsButton != null ) {
+            _controlsButton.RegisterCallback<ClickEvent>(OnControlsClick);
+
+        }
 
         _creditsButton = _document.rootVisualElement.Q("CreditsButton") as Button;
-        _creditsButton.RegisterCallback<ClickEvent>(OnCreditsClick);
+        if( _creditsButton != null ) {
+            _creditsButton.RegisterCallback<ClickEvent>(OnCreditsClick);
+        }
+
+        _backButton = _document.rootVisualElement.Q("BackButton") as Button;
+        if ( _backButton != null ) {
+            _backButton.RegisterCallback<ClickEvent>(OnBackClick);
+        }
 
     }
 
     private void OnDisable()
     {
-        _startButton.UnregisterCallback<ClickEvent>(OnPlayGameClick);
-        _controlsButton.UnregisterCallback<ClickEvent>(OnControlsClick);
-        _creditsButton.UnregisterCallback<ClickEvent>(OnCreditsClick);
+        if ( _startButton != null ) {
+            _startButton.UnregisterCallback<ClickEvent>(OnPlayGameClick);
+        }
+
+        if ( _controlsButton != null ) {
+            _controlsButton.UnregisterCallback<ClickEvent>(OnControlsClick);
+
+        }
+
+        if( _creditsButton != null ) {
+            _creditsButton.UnregisterCallback<ClickEvent>(OnCreditsClick);
+        }
+
+        if ( _backButton != null ) {
+            _backButton.UnregisterCallback<ClickEvent>(OnBackClick);
+        }
+        // _startButton.UnregisterCallback<ClickEvent>(OnPlayGameClick);
+        // _controlsButton.UnregisterCallback<ClickEvent>(OnControlsClick);
+        // _creditsButton.UnregisterCallback<ClickEvent>(OnCreditsClick);
+        // _backButton.UnregisterCallback<ClickEvent>(OnBackClick);
 
     }
     private void OnPlayGameClick(ClickEvent evt)
@@ -49,5 +79,11 @@ public class MainMenuEvents : MonoBehaviour
     {
         Debug.Log("Check out our awesome team!");
         SceneManager.LoadScene("Credits");
+    }
+
+    private void OnBackClick(ClickEvent evt)
+    {
+        Debug.Log("GO BACK YO!");
+        SceneManager.LoadScene("MainMenu");
     }
 }
