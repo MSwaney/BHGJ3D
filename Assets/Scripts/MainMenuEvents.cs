@@ -85,7 +85,7 @@ public class MainMenuEvents : MonoBehaviour
     }
     private void OnPlayGameClick(ClickEvent evt)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene("SampleScene");
     }
 
     private void OnControlsClick(ClickEvent evt)
