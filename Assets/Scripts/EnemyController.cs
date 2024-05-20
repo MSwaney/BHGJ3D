@@ -6,18 +6,23 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     [Header ("Runner Settings")]
-    [SerializeField] private bool _isRunner;
-    [SerializeField] private float _chaseRadius = 10f;
-    [SerializeField] private float _stoppingDistance = 2f;
+    [SerializeField] private bool   _isRunner;
+    [SerializeField] private float  _chaseRadius = 10f;
+    [SerializeField] private float  _stoppingDistance = 2f;
+
+    [Header ("Spinner Settings")]
+    [SerializeField] private bool   _isSpinner;
 
     [Header ("Other Settings")]
-    [SerializeField] private Animator _animator;
+    [SerializeField] private Animator   _animator;
+    [SerializeField] private int        _health;
 
     private bool _isChasing;
 
-    private BulletSpawner _bulletSpawner;
-    private NavMeshAgent _navMeshAgent;
-    private Transform _player;
+    private BulletSpawner   _bulletSpawner;
+    private NavMeshAgent    _navMeshAgent;
+    private Transform       _player;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +36,10 @@ public class EnemyController : MonoBehaviour
         if (_isRunner)
         {
             _animator.SetBool("isRunner", _isRunner);
+        }
+        if (_isSpinner)
+        {
+            _animator.SetBool("isSpinner", _isSpinner);
         }
     }
 
@@ -65,17 +74,28 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    // Draw the chase radius in the scene view for debugging
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _chaseRadius);
-    }
-
     public IEnumerator PlayFireAnim(float cooldown)
     {
         _animator.SetBool("isFiring", true);
         yield return new WaitForSeconds(cooldown);
         _animator.SetBool("isFiring", false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Laser")
+        {
+            _health--;
+            if (_health == 0 )
+            {
+                //play death animation
+                //stop shooting or running
+            }
+        }
+    }
+
+    public void StopRunner()
+    {
+        _isRunner = false;
     }
 }

@@ -19,15 +19,14 @@ public class BulletSpawner : MonoBehaviour
     private float _timer;
     private float[] _rotations;
 
-    private Transform _playerTransform;
     private EnemyController _enemyController;
+    private PlayerController _player;
 
     public bool isFiring;
 
     // Start is called before the first frame update
     void Start()
     {
-        _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         _enemyController = this.transform.parent.GetComponent<EnemyController>();
 
         _timer = _cooldown;
@@ -60,6 +59,7 @@ public class BulletSpawner : MonoBehaviour
                 DistributedRotations();
             }
         }
+        CheckPlayerState();
     }
 
     public float[] RandomRotations()
@@ -96,6 +96,14 @@ public class BulletSpawner : MonoBehaviour
         return _rotations;
     }
 
+    private void CheckPlayerState()
+    {
+        if (_player.ReturnState() == true)
+        {
+            SetGameOver();
+        }
+    }
+
     public GameObject[] SpawnBullets()
     {
         if (_isRandom)
@@ -103,7 +111,10 @@ public class BulletSpawner : MonoBehaviour
             RandomRotations();
         }
 
-        StartCoroutine(_enemyController.PlayFireAnim(_cooldown));
+        if (!_isRotating)
+        {
+            StartCoroutine(_enemyController.PlayFireAnim(_cooldown));
+        }
 
         // Spawn Bullets
         GameObject[] spawnedBullets = new GameObject[_numberOfBullets];
@@ -148,5 +159,7 @@ public class BulletSpawner : MonoBehaviour
     public void SetGameOver()
     {
         _isGameOver = true;
+        _enemyController.StopRunner();
+        _enemyController.StopAllCoroutines();
     }
 }
