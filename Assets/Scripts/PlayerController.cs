@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
@@ -42,17 +43,18 @@ public class PlayerController : MonoBehaviour
     private Vector2                 _moveInput;
     private Vector3                 _moveDirection;
     private GameManager             _gameManager;
-    private EnemyController[]       _runners;
 
     public bool isAlive = true;
 
     // Start is called before the first frame update
     void Start()
     {
+        _isDead = false;
         _health = _maxHealth;
         _healthBar.SetMaxHealth(_maxHealth);
 
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+
         _healthButton = GameObject.Find("Health_Button");
     }
 
@@ -66,13 +68,6 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(StartDodge());
         }
-
-        if (_health <= 0)
-        {
-            PlayerDied();
-        }
-
-        
     }
 
     // FixedUpdate is called at a fixed interval
@@ -102,8 +97,6 @@ public class PlayerController : MonoBehaviour
         Vector3 currentVelocity = _rigidbody.velocity;
         currentVelocity.y = 0;
         _rigidbody.velocity = currentVelocity;
-
-        // Debug the movement vector
 
         // Calculate movement direction based on input
         Vector3 inputDirection = new Vector3(_moveInput.x, 0f, _moveInput.y);
@@ -171,6 +164,7 @@ public class PlayerController : MonoBehaviour
         float currentSpeed = _moveSpeed;
         _moveSpeed *= _dodgeSpeedMultiplier;
         _health -= _dodgeDamage;
+        _healthBar.SetHealth(_health);
 
         // Wait for the duration of the dodge
         yield return new WaitForSeconds(_dodgeDuration);
@@ -262,16 +256,31 @@ public class PlayerController : MonoBehaviour
     {
         if (other.tag == "Bullet" && !_isDodging)
         {
-            _health--;
-            _healthBar.SetHealth(_health);
-            if (_health < 0)
-            {
-                _health = 0;
-            }
-            if (_health == 0)
-            {
-                StartCoroutine(PlayerDeath());
-            }
+            DoDamage();
+        }
+
+        if (other.tag == "Enemy" && !_isDodging)
+        {
+            DoDamage();
+        }
+
+        if (other.name == "Level_Trigger")
+        {
+            _gameManager.LevelController();
+        }
+    }
+
+    private void DoDamage()
+    {
+        _health--;
+        _healthBar.SetHealth(_health);
+        if (_health < 0)
+        {
+            _health = 0;
+        }
+        if (_health == 0)
+        {
+            StartCoroutine(PlayerDeath());
         }
     }
 
