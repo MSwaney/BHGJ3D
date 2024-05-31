@@ -18,6 +18,8 @@ public class MainMenuEvents : MonoBehaviour
 
     private VisualElement _confirmQuit;
 
+    public AudioSource _menuMusic;
+
     private void Awake()
     {
         _confirmQuit = _document.rootVisualElement.Q("ConfirmQuit") as VisualElement;

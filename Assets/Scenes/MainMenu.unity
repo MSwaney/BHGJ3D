@@ -761,6 +761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _document: {fileID: 1450653872}
+  _menuMusic: {fileID: 607443079}
 --- !u!114 &607443078
 MonoBehaviour:
   m_ObjectHideFlags: 0
