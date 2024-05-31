@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class MainMenuEvents : MonoBehaviour
 {
@@ -11,31 +12,15 @@ public class MainMenuEvents : MonoBehaviour
     private Button _controlsButton;
     private Button _creditsButton;
     private Button _backButton;
+    private Button _quitButton;
+    private Button _cancelButton;
+    private Button _exitGameButton;
 
-    private List<Button> _menuButtons = new List<Button>();
-    private AudioSource _buttonAudio;
-    private AudioSource _menuMusic;
-
+    private VisualElement _confirmQuit;
 
     private void Awake()
     {
-        //_document = GetComponent<UIDocument>();
-
-        _menuMusic = GetComponent<AudioSource>();
-
-        _buttonAudio = GetComponent<AudioSource>();
-
-        if(_menuMusic.clip != null)
-        {
-            _menuMusic.Play();
-        }
-
-        print(_document);
-        _menuButtons = _document.rootVisualElement.Query<Button>().ToList();
-        for (int i = 0; i < _menuButtons.Count; i++)
-        {
-            _menuButtons[i].RegisterCallback<ClickEvent>(OnAllButtonsClick);
-        }
+        _confirmQuit = _document.rootVisualElement.Q("ConfirmQuit") as VisualElement;
 
         _startButton = _document.rootVisualElement.Q("StartGameButton") as Button;
         if ( _startButton != null ) {
@@ -57,15 +42,25 @@ public class MainMenuEvents : MonoBehaviour
         if ( _backButton != null ) {
             _backButton.RegisterCallback<ClickEvent>(OnBackClick);
         }
+
+        _quitButton = _document.rootVisualElement.Q("QuitButton") as Button;
+        if ( _quitButton != null ) {
+            _quitButton.RegisterCallback<ClickEvent>(QuitGame);
+        }
+
+        _cancelButton = _document.rootVisualElement.Q("Cancel") as Button;
+        if ( _cancelButton != null ) {
+            _cancelButton.RegisterCallback<ClickEvent>(ReturnToMenu);
+        }
+
+        _exitGameButton = _document.rootVisualElement.Q("Exit") as Button;
+        if ( _exitGameButton != null ) {
+            _exitGameButton.RegisterCallback<ClickEvent>(ExitGame);
+        }
     }
 
     private void OnDisable()
     {
-        // for (int i = 0; i < _menuButtons.Count; i++)
-        // {
-        //     _menuButtons[i].UnregisterCallback<ClickEvent>(OnAllButtonsClick);
-        // }
-
         if ( _startButton != null ) {
             _startButton.UnregisterCallback<ClickEvent>(OnPlayGameClick);
         }
@@ -81,6 +76,10 @@ public class MainMenuEvents : MonoBehaviour
 
         if ( _backButton != null ) {
             _backButton.UnregisterCallback<ClickEvent>(OnBackClick);
+        }
+
+        if ( _quitButton != null ) {
+            _quitButton.UnregisterCallback<ClickEvent>(QuitGame);
         }
     }
     private void OnPlayGameClick(ClickEvent evt)
@@ -103,8 +102,28 @@ public class MainMenuEvents : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-    private void OnAllButtonsClick(ClickEvent evt)
+    private void QuitGame(ClickEvent evt) 
     {
-        _buttonAudio.PlayOneShot(_buttonAudio.clip, 0.5f);
+        _confirmQuit.style.display = DisplayStyle.Flex;
+
+    }
+    private void ReturnToMenu(ClickEvent evt) 
+    {
+        _confirmQuit.style.display = DisplayStyle.None;
+
+    }
+    private void ExitGame(ClickEvent evt) 
+    {
+        if (Application.isEditor)
+        {
+
+            EditorApplication.isPlaying = false;
+        } else {
+
+            Application.Quit();
+
+        }
+
+
     }
 }
