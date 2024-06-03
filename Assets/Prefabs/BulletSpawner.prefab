@@ -120,12 +120,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dba13cd03c60b24193d92667b6b2b76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletResource: {fileID: 65565375861284105, guid: 23d845431ba07d5488fd2a9c60205030,
+  _bulletResource: {fileID: 3966700520238418458, guid: f3a62058759ea7145a202611c50e9617,
     type: 3}
   _bulletVelocity: {x: 1, y: 0, z: 1}
   _minRotation: 0
   _maxRotation: 0
   _cooldown: 0
   _bulletSpeed: 0
+  _rotationSpeed: 0
   _numberOfBullets: 0
   _isRandom: 0
+  _isRotating: 0
+  isFiring: 0

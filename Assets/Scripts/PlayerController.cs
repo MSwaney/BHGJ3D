@@ -4,6 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.DualShock;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -41,12 +44,27 @@ public class PlayerController : MonoBehaviour
     private bool                    _isMovingBackwards;
     private GameObject              _healthButton;
     private Vector2                 _moveInput;
+    private Vector2                 _rightStick;
+    private Vector2                 _mousePosition;
+    private Vector2                 _warpPosition;
+    private Vector2                 _overflow;
     private Vector3                 _moveDirection;
     private GameManager             _gameManager;
 
     public bool isAlive = true;
+    public Vector2 sensitivity = new Vector2(1500f, 1500f);
+    public Vector2 bias = new Vector2 (0f, -1f);
 
-    // Start is called before the first frame update
+    PlayerControls controls;
+
+    private void Awake()
+    {
+        controls = new PlayerControls();
+
+        controls.Gameplay.Dodge.performed += ctx => StartCoroutine(StartDodge());
+        controls.Gameplay.Fire.performed += ctx => FireLaser();
+
+    }
     void Start()
     {
         _isDead = false;
@@ -58,10 +76,10 @@ public class PlayerController : MonoBehaviour
         _healthButton = GameObject.Find("Health_Button");
     }
 
-    // Update is called once per frame
     void Update()
     {
         CalculateMovement();
+        CalculateJoystickMovement();
         
         // Check for dodge input
         if (Input.GetKeyDown(KeyCode.Space) && !_isDodging)
@@ -141,6 +159,23 @@ public class PlayerController : MonoBehaviour
             // Rotate the player towards the target point
             RotateTowardsCursor(targetPoint);
         }
+    }
+
+    private void CalculateJoystickMovement()
+    {
+        _rightStick = Gamepad.current.rightStick.ReadValue();
+
+        if (_rightStick.magnitude < 0.1f) return;
+
+        _mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+
+        _warpPosition = _mousePosition + bias + _overflow + sensitivity * Time.deltaTime * _rightStick;
+
+        _warpPosition = new Vector2(Mathf.Clamp(_warpPosition.x, 0, Screen.width), Mathf.Clamp(_warpPosition.y, 0, Screen.height));
+
+        _overflow = new Vector2(_warpPosition.x % 1, _warpPosition.y % 1);
+
+        Mouse.current.WarpCursorPosition(_warpPosition);
     }
 
     private void RotateTowardsCursor(Vector3 targetPoint)
@@ -294,5 +329,15 @@ public class PlayerController : MonoBehaviour
     public bool CheckDodge()
     {
         return _isDodging;
+    }
+
+    private void OnEnable()
+    {
+        controls.Gameplay.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.Gameplay.Disable();
     }
 }
