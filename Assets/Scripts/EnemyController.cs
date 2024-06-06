@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
 {
@@ -16,6 +18,7 @@ public class EnemyController : MonoBehaviour
     [Header ("Other Settings")]
     [SerializeField] private Animator   _animator;
     [SerializeField] private int        _health;
+    [SerializeField] private GameObject[] _partsPrefabs;
 
     private bool _isChasing;
     private bool _isDead;
@@ -111,8 +114,22 @@ public class EnemyController : MonoBehaviour
     private IEnumerator DestroyEnemy()
     {
         _gameManager.RemoveEnemy(this.gameObject);
+        SpawnParts();
         yield return new WaitForSeconds(10f);
         Destroy(this.gameObject);
+    }
+
+    private void SpawnParts()
+    {
+        int numberOfParts = Mathf.RoundToInt(Random.Range(1f, 3f));
+        while (numberOfParts > 0)
+        {
+            int randomPart = Mathf.RoundToInt(Random.Range(0f, _partsPrefabs.Length - 1f));
+            print(randomPart);
+            Vector3 randomOffset = new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(2f, 4f), Random.Range(-2.5f, 2.5f));
+            Instantiate(_partsPrefabs[randomPart], transform.position + randomOffset, Quaternion.identity);
+            numberOfParts--;
+        }
     }
 
     public void StopRunner()

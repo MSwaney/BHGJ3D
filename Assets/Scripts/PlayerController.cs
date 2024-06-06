@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int    _maximumMaxHealth;
     [SerializeField] private int    _damage;
     [SerializeField] private int    _maxDamage;
-    [SerializeField] private int    _parts;
+    [SerializeField] private int    _parts = 0;
 
     [Header ("Movement Settings")]
     [SerializeField] private float  _dodgeSpeedMultiplier;
@@ -37,12 +37,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject         _laserPrefab;
     [SerializeField] private HealthBar          _healthBar;
     [SerializeField] private Rigidbody          _rigidbody;
+    [SerializeField] private UIManager          _uiManager;
 
     private bool                    _isDead = false;
     private bool                    _isDodging;
     private bool                    _isMoving;
     private bool                    _isMovingBackwards;
     private GameObject              _healthButton;
+    private GameObject              _bulletParent;
     private Vector2                 _moveInput;
     private Vector2                 _rightStick;
     private Vector2                 _mousePosition;
@@ -69,17 +71,22 @@ public class PlayerController : MonoBehaviour
     {
         _isDead = false;
         _health = _maxHealth;
-        _healthBar.SetMaxHealth(_maxHealth);
-
+        
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _bulletParent = GameObject.Find("Bullets");
 
-        _healthButton = GameObject.Find("Health_Button");
+        _uiManager.SetMaxHealth(_maxHealth);
+        //_healthButton = GameObject.Find("Health_Button");
     }
 
     void Update()
     {
         CalculateMovement();
-        CalculateJoystickMovement();
+        if (Gamepad.current != null)
+        {
+            CalculateJoystickMovement();
+        }
         
         // Check for dodge input
         if (Input.GetKeyDown(KeyCode.Space) && !_isDodging)
@@ -212,8 +219,12 @@ public class PlayerController : MonoBehaviour
     private void FireLaser()
     {
         Vector3 laserOffset = transform.forward * 1.05f;
+
         float laserHeightOffset = 1.0f;
+
         GameObject laser = Instantiate(_laserPrefab, transform.position + laserOffset + new Vector3(0f, laserHeightOffset, 0f), Quaternion.identity);
+        laser.transform.parent = _bulletParent.transform;
+
         laser.GetComponent<Rigidbody>().velocity = transform.forward * _laserSpeed;
 
         // Start the laser cooldown coroutine
@@ -317,6 +328,12 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(PlayerDeath());
         }
+    }
+
+    public void AddParts()
+    {
+        _parts++;
+        _uiManager.GetComponent<UIManager>().UpdatePartsText(_parts);
     }
 
     private IEnumerator PlayerDeath()

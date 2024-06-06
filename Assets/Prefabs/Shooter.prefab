@@ -11,37 +11,37 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 20fe9ce7417977a4ca07902f2457305a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.9464674
+      value: -12.57
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20fe9ce7417977a4ca07902f2457305a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 1.3883791
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20fe9ce7417977a4ca07902f2457305a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -18.286606
+      value: -7.68
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20fe9ce7417977a4ca07902f2457305a,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.64278764
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20fe9ce7417977a4ca07902f2457305a,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20fe9ce7417977a4ca07902f2457305a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.7660445
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20fe9ce7417977a4ca07902f2457305a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20fe9ce7417977a4ca07902f2457305a,
         type: 3}
@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 20fe9ce7417977a4ca07902f2457305a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20fe9ce7417977a4ca07902f2457305a,
         type: 3}
@@ -174,6 +174,11 @@ MonoBehaviour:
   _isSpinner: 0
   _animator: {fileID: 3248236496514447801}
   _health: 10
+  _partsPrefabs:
+  - {fileID: 3873293387059539124, guid: e68011162be20db478ac478e7f5cdaf9, type: 3}
+  - {fileID: 1771118732544259918, guid: 3dda2506d01a3e74b99556409837275a, type: 3}
+  - {fileID: 3050822727950879038, guid: f055a959225aab8449bf224fe6604468, type: 3}
+  - {fileID: 826924939295795278, guid: c934b7d401ed8634d888b96729221b0c, type: 3}
 --- !u!4 &8931800479953724355 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 20fe9ce7417977a4ca07902f2457305a,
@@ -211,7 +216,7 @@ PrefabInstance:
     - target: {fileID: 2983908269816465233, guid: 75d61aebaf49ac94780f958444ce3e8f,
         type: 3}
       propertyPath: _bulletSpeed
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2983908269816465233, guid: 75d61aebaf49ac94780f958444ce3e8f,
         type: 3}

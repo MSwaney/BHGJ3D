@@ -5,22 +5,23 @@ using UnityEngine;
 public class BulletSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject _bulletResource;
-    [SerializeField] private Vector3 _bulletVelocity;
-    [SerializeField] private float _minRotation;
-    [SerializeField] private float _maxRotation;
-    [SerializeField] private float _cooldown;
-    [SerializeField] private float _bulletSpeed;
-    [SerializeField] private float _rotationSpeed;
-    [SerializeField] private int _numberOfBullets;
-    [SerializeField] private bool _isRandom;
-    [SerializeField] private bool _isRotating = false;
+    [SerializeField] private Vector3    _bulletVelocity;
+    [SerializeField] private float      _minRotation;
+    [SerializeField] private float      _maxRotation;
+    [SerializeField] private float      _cooldown;
+    [SerializeField] private float      _bulletSpeed;
+    [SerializeField] private float      _rotationSpeed;
+    [SerializeField] private int        _numberOfBullets;
+    [SerializeField] private bool       _isRandom;
+    [SerializeField] private bool       _isRotating = false;
 
-    private bool _isGameOver = false;
-    private float _timer;
+    private bool    _isGameOver = false;
     private float[] _rotations;
+    private float   _timer;
 
-    private EnemyController _enemyController;
-    private PlayerController _player;
+    private EnemyController     _enemyController;
+    private GameObject          _bulletParent;
+    private PlayerController    _player;
 
     public bool isFiring;
 
@@ -29,6 +30,7 @@ public class BulletSpawner : MonoBehaviour
     {
         _enemyController = this.transform.parent.GetComponent<EnemyController>();
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        _bulletParent = GameObject.Find("Bullets");
 
         _timer = _cooldown;
         _rotations = new float[_numberOfBullets];
@@ -122,6 +124,7 @@ public class BulletSpawner : MonoBehaviour
         for (int i = 0; i < _numberOfBullets; i++)
         {
             spawnedBullets[i] = Instantiate(_bulletResource, transform.position, transform.rotation);
+            spawnedBullets[i].transform.parent = _bulletParent.transform;
 
             var b = spawnedBullets[i].GetComponent<Bullet>();
             b._speed = _bulletSpeed;

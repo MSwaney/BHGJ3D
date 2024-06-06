@@ -11,37 +11,37 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 4c61efdfe59f81a4e9a51d2e20a648d7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.317947
+      value: 13.875137
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4c61efdfe59f81a4e9a51d2e20a648d7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 1.404
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4c61efdfe59f81a4e9a51d2e20a648d7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -19.466513
+      value: 5.1338286
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4c61efdfe59f81a4e9a51d2e20a648d7,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.70710784
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4c61efdfe59f81a4e9a51d2e20a648d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4c61efdfe59f81a4e9a51d2e20a648d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.70710576
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4c61efdfe59f81a4e9a51d2e20a648d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4c61efdfe59f81a4e9a51d2e20a648d7,
         type: 3}
@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 4c61efdfe59f81a4e9a51d2e20a648d7,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4c61efdfe59f81a4e9a51d2e20a648d7,
         type: 3}
@@ -124,7 +124,12 @@ MonoBehaviour:
   _stoppingDistance: 2
   _isSpinner: 0
   _animator: {fileID: 3983192466901033649}
-  _health: 10
+  _health: 8
+  _partsPrefabs:
+  - {fileID: 3873293387059539124, guid: e68011162be20db478ac478e7f5cdaf9, type: 3}
+  - {fileID: 1771118732544259918, guid: 3dda2506d01a3e74b99556409837275a, type: 3}
+  - {fileID: 3050822727950879038, guid: f055a959225aab8449bf224fe6604468, type: 3}
+  - {fileID: 826924939295795278, guid: c934b7d401ed8634d888b96729221b0c, type: 3}
 --- !u!195 &626726759321524861
 NavMeshAgent:
   m_ObjectHideFlags: 0

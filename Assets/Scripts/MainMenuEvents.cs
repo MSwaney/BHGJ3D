@@ -116,16 +116,6 @@ public class MainMenuEvents : MonoBehaviour
     }
     private void ExitGame(ClickEvent evt) 
     {
-        if (Application.isEditor)
-        {
-
-            EditorApplication.isPlaying = false;
-        } else {
-
-            Application.Quit();
-
-        }
-
-
+        Application.Quit();
     }
 }

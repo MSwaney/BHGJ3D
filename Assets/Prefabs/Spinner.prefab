@@ -11,17 +11,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 56a94f960a0807140a4cec482ae2a0c0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.6717253
+      value: 114.95772
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 56a94f960a0807140a4cec482ae2a0c0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 1.39
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 56a94f960a0807140a4cec482ae2a0c0,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -17.988264
+      value: 0.98780096
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 56a94f960a0807140a4cec482ae2a0c0,
         type: 3}
@@ -31,17 +31,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 56a94f960a0807140a4cec482ae2a0c0,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 56a94f960a0807140a4cec482ae2a0c0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 56a94f960a0807140a4cec482ae2a0c0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 56a94f960a0807140a4cec482ae2a0c0,
         type: 3}
@@ -123,7 +123,12 @@ MonoBehaviour:
   _stoppingDistance: 2
   _isSpinner: 1
   _animator: {fileID: 6160027846754254073}
-  _health: 15
+  _health: 16
+  _partsPrefabs:
+  - {fileID: 3873293387059539124, guid: e68011162be20db478ac478e7f5cdaf9, type: 3}
+  - {fileID: 1771118732544259918, guid: 3dda2506d01a3e74b99556409837275a, type: 3}
+  - {fileID: 3050822727950879038, guid: f055a959225aab8449bf224fe6604468, type: 3}
+  - {fileID: 826924939295795278, guid: c934b7d401ed8634d888b96729221b0c, type: 3}
 --- !u!136 &8007552363397615813
 CapsuleCollider:
   m_ObjectHideFlags: 0
